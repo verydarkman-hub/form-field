@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Form</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f2f2f2;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .form-container {
+            background: white;
+            width: 100%;
+            max-width: 400px;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 25px;
+            color: #333;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 7px;
+            color: #333;
+            font-weight: bold;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+            outline: none;
+        }
+
+        input:focus {
+            border-color: #007bff;
+        }
+
+        input.error {
+            border-color: #dc3545;
+        }
+
+        input.success {
+            border-color: #28a745;
+        }
+
+        .error-message {
+            color: #dc3545;
+            font-size: 13px;
+            margin-top: 5px;
+            display: block;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #0056b3;
+        }
+
+        #success-message {
+            color: #28a745;
+            text-align: center;
+            margin-top: 15px;
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="form-container">
+        <h2>Registration Form</h2>
+
+        <form id="registrationForm">
+
+            <div class="form-group">
+                <label for="phone">Phone Number</label>
+                <input 
+                    type="tel" 
+                    id="phone" 
+                    placeholder="Enter your phone number"
+                >
+                <span class="error-message" id="phoneError"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input 
+                    type="email" 
+                    id="email" 
+                    placeholder="Enter your email"
+                >
+                <span class="error-message" id="emailError"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input 
+                    type="password" 
+                    id="password" 
+                    placeholder="Enter your password"
+                >
+                <span class="error-message" id="passwordError"></span>
+            </div>
+
+            <button type="submit">Register</button>
+
+            <p id="success-message">
+                Registration successful!
+            </p>
+
+        </form>
+    </div>
+
+    <script>
+        const form = document.getElementById("registrationForm");
+
+        const phone = document.getElementById("phone");
+        const email = document.getElementById("email");
+        const password = document.getElementById("password");
+
+        const phoneError = document.getElementById("phoneError");
+        const emailError = document.getElementById("emailError");
+        const passwordError = document.getElementById("passwordError");
+
+        const successMessage = document.getElementById("success-message");
+
+        form.addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            phoneError.textContent = "";
+            emailError.textContent = "";
+            passwordError.textContent = "";
+
+            phone.classList.remove("error", "success");
+            email.classList.remove("error", "success");
+            password.classList.remove("error", "success");
+
+            let isValid = true
+            const phonePattern = /^[0-9+\-\s()]{7,20}$/;
+
+            if (phone.value.trim() === "") {
+                phoneError.textContent = "Phone number is required.";
+                phone.classList.add("error");
+                isValid = false;
+            } 
+            else if (!phonePattern.test(phone.value.trim())) {
+                phoneError.textContent = "Please enter a valid phone number.";
+                phone.classList.add("error");
+                isValid = false;
+            } 
+            else {
+                phone.classList.add("success");
+            }
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+            if (email.value.trim() === "") {
+                emailError.textContent = "Email is required.";
+                email.classList.add("error");
+                isValid = false;
+            } 
+            else if (!emailPattern.test(email.value.trim())) {
+                emailError.textContent = "Please enter a valid email address.";
+                email.classList.add("error");
+                isValid = false;
+            } 
+            else {
+                email.classList.add("success");
+            }
+            if (password.value === "") {
+                passwordError.textContent = "Password is required.";
+                password.classList.add("error");
+                isValid = false;
+            } 
+            else if (password.value.length < 8) {
+                passwordError.textContent =
+                    "Password must contain at least 8 characters.";
+                password.classList.add("error");
+                isValid = false;
+            } 
+            else {
+                password.classList.add("success");
+            }
+
+            if (isValid) {
+                successMessage.style.display = "block";
+
+                console.log("Phone:", phone.value);
+                console.log("Email:", email.value);
+                console.log("Password:", password.value);
+            } 
+            else {
+                successMessage.style.display = "none";
+            }
+        });
+    </script>
+
+</body>
+</html>
